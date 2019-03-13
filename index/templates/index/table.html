@@ -1,0 +1,54 @@
+{% extends "index/base.html" %}
+
+{% load staticfiles %}
+
+{% block static_block %} 
+<link rel="stylesheet" href="{% static 'css/table.css' %}">
+<script src="{% static 'js/table.js' %}"></script>
+{% endblock static_block %}
+
+{% block body_block %}
+{% if table_name %}
+<h3>Choose one table to view</h3>
+<select class="form-control" onchange="redirect(this.value)">
+  {% for table in table_names %}
+  {% if table == table_name %}
+  <option value="{{ table }}" selected>{{ table }}</option>
+  {% else %}
+  <option value="{{ table }}">{{ table }}</option>
+  {% endif %}
+  {% endfor %}
+</select>
+
+<h3>{{ table_name }}</h3>
+<table class="table">
+    <tr>
+      {% for col in columns %}
+        {% if col.datatype == 1 %}
+        <th>Int</th>
+        {% elif col.datatype == 2 %}
+        <th>Varchar({{ col.constraint.max_len }})</th>
+        {% endif %}
+      {% endfor %}
+    </tr>
+    <tr>
+      {% for col in columns %}
+        {% if col.key %}
+        <th><u>{{ col.name }}<u></th>
+        {% else %}
+        <th>{{ col.name }}</th>
+        {% endif %}
+      {% endfor %}
+    </tr>
+    {% for row in content %}
+    <tr>
+      {% for col_content in row %}
+        <td>{{ col_content }}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No Table in the Database</p>
+{% endif %}
+{% endblock body_block %}

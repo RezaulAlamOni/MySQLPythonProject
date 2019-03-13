@@ -1,0 +1,19 @@
+#sql {
+   height: 200px;
+}
+
+#sql-submit {
+    float: right;
+}
+
+#sql-insert-submit {
+    float: right;
+}
+
+p.danger {
+    color: #d9534f;
+}
+
+b.warning {
+    color: #f0ad4e;
+}
